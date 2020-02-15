@@ -1,0 +1,44 @@
+body {
+  background: rgb(218, 110, 175);
+}
+
+.title{
+  background:linear-gradient(rgb(228, 10, 203),red);
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 3px 2px rgb(255, 183, 253);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  position:flex;
+  flex-wrap: wrap; 
+}
+
+
+.grid {
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.card {
+  background: repeating-radial-gradient(red,pink,rgb(255, 0, 221),purple,red,pink,red,black);
+  width: 60px;
+  height: 100px;
+  margin: 10px;
+  border-radius: 10px;
+}
+
+.card.hidden img{
+  visibility: hidden;
+}
+
+.empty-slot {
+  background:   rgb(218, 110, 175);
+  width: 60px;
+  height: 100px;
+  margin: 10px;
+}
+.message-line{
+  display: flex;
+  justify-content: center;
+  height: 70px;
+}

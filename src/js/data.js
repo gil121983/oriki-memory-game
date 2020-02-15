@@ -24,4 +24,5 @@ const allCards = [
 
 const emptySlot = {
    id:"empty-slot",
+   key:false
 }

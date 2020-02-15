@@ -108,11 +108,12 @@ function render(cardsArray) {
   }
 
   function checkForWinner(array) { //declare victory and calls sayHello
-    let count = 0;
+    let count = 0 ;
 
     array.forEach(i => {
       if (i.key)
         count += 1;
+    })
       if (count === 0) {
         Swal.fire({
           title: 'Oriki wins!!!.',
@@ -130,7 +131,7 @@ function render(cardsArray) {
           }
         })
       }
-    })
+    
 
 
   }
@@ -169,7 +170,7 @@ function setDifficulty() { //sets difficulty and calls start with new deck
     input: 'range',
     inputAttributes: {
       min: 4,
-      max: 18,
+      max: 20,
       step: 2
     },
     inputValue: 10,

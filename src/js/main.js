@@ -1,4 +1,5 @@
 init();
+let badPoints = 0;
 
 function init() {
   sayHello()
@@ -7,11 +8,11 @@ function init() {
 function start(deck) {
   shuffle(deck);
   render(deck);
+
 }
 
 function render(cardsArray) {
-  console.log(cardsArray);
-
+  console.log(badPoints);
   var gridElement = document.querySelector('.grid');
   const msgLine = document.querySelector('.message-line')
 
@@ -51,6 +52,7 @@ function render(cardsArray) {
   }
 
   function flipBack() {
+    badPoints++;
     gameStatus = "off"
     const Toast = Swal.mixin({
       toast: true,

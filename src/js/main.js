@@ -25,7 +25,7 @@ function render(cardsArray) {
       div.className = 'card hidden';
       const img = document.createElement('img');
       img.src = card.src;
-      img.setAttribute('style', 'width: 50px');
+      img.setAttribute('style', 'width: 80px');
 
       div.appendChild(img);
     }
@@ -39,9 +39,11 @@ function render(cardsArray) {
     if (event.target.classList.contains('hidden') && card.id !== "empty-slot" && gameStatus === "on") {
       if (pickedCards.length < 1) {
         event.target.classList.remove('hidden');
+        event.target.setAttribute("style","background:white")
         pickedCards.push(card);
       } else {
         event.target.classList.remove('hidden');
+        event.target.setAttribute("style","background:white")
         pickedCards.push(card);
         if (pickedCards[0].key !== pickedCards[1].key)
           flipBack();
@@ -129,6 +131,7 @@ function render(cardsArray) {
             no-repeat
           `,
           onClose() {
+            clear()
             sayHello()
           }
         })
@@ -141,7 +144,7 @@ function render(cardsArray) {
   function clear() { //cleans the grid  
     while (gridElement.firstChild)
       gridElement.removeChild(gridElement.firstChild)
-    msgLine.innerHTML = ""
+
   }
 }
 

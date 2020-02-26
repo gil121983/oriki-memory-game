@@ -14,36 +14,49 @@ function start(deck) {
 function render(cardsArray) {
   console.log(badPoints);
   var gridElement = document.querySelector('.grid');
-  const msgLine = document.querySelector('.message-line')
 
   cardsArray.forEach(card => {
-    const div = document.createElement('div');
-    div.onclick = onCardClick.bind(event, card);
+    const container = document.createElement('div')
     if (card.id === "empty-slot")
-      div.className = "empty-slot";
+      container.className = "empty-slot";
     else {
-      div.className = 'card hidden';
+      container.className = "flip-card hidden"
+      container.onclick = onCardClick.bind(event, card);
+
+      const cardInner = document.createElement("div")
+      cardInner.className = "flip-card-inner"
+
+      const cardFront = document.createElement('div')
+      cardFront.className = "flip-card-front card"
+
+      const cardBack = document.createElement('div');
+
+      cardBack.className = 'flip-card-back';
       const img = document.createElement('img');
       img.src = card.src;
       img.setAttribute('style', 'width: 80px');
 
-      div.appendChild(img);
+      cardBack.appendChild(img);
+      cardInner.appendChild(cardBack)
+      cardInner.appendChild(cardFront)
+      container.appendChild(cardInner)
     }
-    gridElement.appendChild(div);
+    gridElement.appendChild(container);
   });
 
   let pickedCards = [];
   let gameStatus = "on"
 
   function onCardClick(card, event) {
+    console.log(card);
+    
     if (event.target.classList.contains('hidden') && card.id !== "empty-slot" && gameStatus === "on") {
       if (pickedCards.length < 1) {
         event.target.classList.remove('hidden');
-        event.target.setAttribute("style","background:white")
         pickedCards.push(card);
       } else {
         event.target.classList.remove('hidden');
-        event.target.setAttribute("style","background:white")
+        event.target.setAttribute("style", "")
         pickedCards.push(card);
         if (pickedCards[0].key !== pickedCards[1].key)
           flipBack();
@@ -112,31 +125,31 @@ function render(cardsArray) {
   }
 
   function checkForWinner(array) { //declare victory and calls sayHello
-    let count = 0 ;
+    let count = 0;
 
     array.forEach(i => {
       if (i.key)
         count += 1;
     })
-      if (count === 0) {
-        Swal.fire({
-          title: 'Oriki wins!!!.',
-          width: 600,
-          padding: '3em',
-          background: '#fff url(https://sweetalert2.github.io/images/trees.png)',
-          backdrop: `
+    if (count === 0) {
+      Swal.fire({
+        title: 'Oriki wins!!!.',
+        width: 600,
+        padding: '3em',
+        background: '#fff url(https://sweetalert2.github.io/images/trees.png)',
+        backdrop: `
             rgba(0,0,123,0.4)
             url(https://sweetalert2.github.io/images/nyan-cat.gif)
             left top
             no-repeat
           `,
-          onClose() {
-            clear()
-            sayHello()
-          }
-        })
-      }
-    
+        onClose() {
+          clear()
+          sayHello()
+        }
+      })
+    }
+
 
 
   }

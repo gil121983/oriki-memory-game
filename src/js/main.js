@@ -14,45 +14,71 @@ function start(deck) {
 function render(cardsArray) {
   console.log(badPoints);
   var gridElement = document.querySelector('.grid');
-  const msgLine = document.querySelector('.message-line')
 
   cardsArray.forEach(card => {
-    const div = document.createElement('div');
-    div.onclick = onCardClick.bind(event, card);
+    const container = document.createElement('div')
     if (card.id === "empty-slot")
-      div.className = "empty-slot";
+      container.className = "empty-slot";
     else {
-      div.className = 'card hidden';
+      container.className = "flip-card hidden"
+
+      const cardInner = document.createElement("div")
+      cardInner.className = "flip-card-inner"
+      cardInner.id = `card-inner${card.id}`
+      cardInner.onclick = function () {
+        let cardIdStr = `#card-inner${card.id}`
+        onCardClick(cardIdStr, card, event)
+      }
+
+      const cardFront = document.createElement('div')
+      cardFront.className = "flip-card-front card hidden"
+
+      const cardBack = document.createElement('div');
+
+      cardBack.className = 'flip-card-back';
       const img = document.createElement('img');
       img.src = card.src;
       img.setAttribute('style', 'width: 80px');
 
-      div.appendChild(img);
+      cardBack.appendChild(img);
+      cardInner.appendChild(cardBack)
+      cardInner.appendChild(cardFront)
+      container.appendChild(cardInner)
     }
-    gridElement.appendChild(div);
+    gridElement.appendChild(container);
   });
 
   let pickedCards = [];
   let gameStatus = "on"
 
-  function onCardClick(card, event) {
+  function onCardClick(cardIdStr, card, event) {
     if (event.target.classList.contains('hidden') && card.id !== "empty-slot" && gameStatus === "on") {
       if (pickedCards.length < 1) {
         event.target.classList.remove('hidden');
-        event.target.setAttribute("style","background:white")
         pickedCards.push(card);
+        flip(cardIdStr);
       } else {
         event.target.classList.remove('hidden');
-        event.target.setAttribute("style","background:white")
         pickedCards.push(card);
+        flip(cardIdStr);
         if (pickedCards[0].key !== pickedCards[1].key)
           flipBack();
         else
           removePair(pickedCards);
       }
     }
-  }
-
+  };
+  function flip(cardIdStr) {
+    let element = document.querySelector(cardIdStr)
+    if (true) {
+      if (element.style.transform == "rotateY(180deg)") {
+        element.style.transform = "rotateY(0deg)";
+      }
+      else {
+        element.style.transform = "rotateY(180deg)";
+      }
+    }
+  };
   function flipBack() {
     badPoints++;
     gameStatus = "off"
@@ -76,7 +102,7 @@ function render(cardsArray) {
       clear()
       render(cardsArray)
     }, 3000);
-  }
+  };
 
   function removePair(cards) { //remove matched pair and calls checkForWinner 
     gameStatus = "off";
@@ -109,44 +135,44 @@ function render(cardsArray) {
       checkForWinner(cardsArray)
       render(cardsArray)
     }, 1000);
-  }
+  };
 
   function checkForWinner(array) { //declare victory and calls sayHello
-    let count = 0 ;
+    let count = 0;
 
     array.forEach(i => {
       if (i.key)
         count += 1;
     })
-      if (count === 0) {
-        Swal.fire({
-          title: 'Oriki wins!!!.',
-          width: 600,
-          padding: '3em',
-          background: '#fff url(https://sweetalert2.github.io/images/trees.png)',
-          backdrop: `
+    if (count === 0) {
+      Swal.fire({
+        title: 'Oriki wins!!!.',
+        width: 600,
+        padding: '3em',
+        background: '#fff url(https://sweetalert2.github.io/images/trees.png)',
+        backdrop: `
             rgba(0,0,123,0.4)
             url(https://sweetalert2.github.io/images/nyan-cat.gif)
             left top
             no-repeat
           `,
-          onClose() {
-            clear()
-            sayHello()
-          }
-        })
-      }
-    
+        onClose() {
+          clear()
+          sayHello()
+        }
+      })
+    }
 
 
-  }
+
+  };
 
   function clear() { //cleans the grid  
     while (gridElement.firstChild)
       gridElement.removeChild(gridElement.firstChild)
 
-  }
-}
+  };
+};
 
 function sayHello() {  //says welcome and calls setDifficulty
   Swal.fire({
@@ -165,7 +191,7 @@ function sayHello() {  //says welcome and calls setDifficulty
       setDifficulty()
     }
   })
-}
+};
 
 function setDifficulty() { //sets difficulty and calls start with new deck
   Swal.fire({
@@ -188,7 +214,7 @@ function setDifficulty() { //sets difficulty and calls start with new deck
       start(newDeck)
     }
   })
-}
+};
 
 function shuffle(array) { // shuffle array randomly
   var currentIndex = array.length, temporaryValue, randomIndex;
@@ -207,5 +233,5 @@ function shuffle(array) { // shuffle array randomly
   }
 
   return array;
-}
+};
 

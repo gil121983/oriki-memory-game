@@ -32,13 +32,7 @@ body {
   background: repeating-radial-gradient(red,pink,rgb(255, 0, 221),purple,red,pink,red,black);
   width: 80px;
   height: 150px;
-  margin: 20px;
   border-radius: 10px;
-}
-
-.card.hidden img{
-  width: 80px;
-  visibility: hidden;
 }
 
 .empty-slot {
@@ -47,8 +41,4 @@ body {
   height: 150px;
   margin: 20px;
 }
-.message-line{
-  display: flex;
-  justify-content: center;
-  height: 70px;
-}
+

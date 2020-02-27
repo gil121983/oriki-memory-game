@@ -21,13 +21,17 @@ function render(cardsArray) {
       container.className = "empty-slot";
     else {
       container.className = "flip-card hidden"
-      container.onclick = onCardClick.bind(event, card);
 
       const cardInner = document.createElement("div")
       cardInner.className = "flip-card-inner"
+      cardInner.id = `card-inner${card.id}`
+      cardInner.onclick = function () {
+        let cardIdStr = `#card-inner${card.id}`
+        onCardClick(cardIdStr, card, event)
+      }
 
       const cardFront = document.createElement('div')
-      cardFront.className = "flip-card-front card"
+      cardFront.className = "flip-card-front card hidden"
 
       const cardBack = document.createElement('div');
 
@@ -47,25 +51,34 @@ function render(cardsArray) {
   let pickedCards = [];
   let gameStatus = "on"
 
-  function onCardClick(card, event) {
-    console.log(card);
-    
+  function onCardClick(cardIdStr, card, event) {
     if (event.target.classList.contains('hidden') && card.id !== "empty-slot" && gameStatus === "on") {
       if (pickedCards.length < 1) {
         event.target.classList.remove('hidden');
         pickedCards.push(card);
+        flip(cardIdStr);
       } else {
         event.target.classList.remove('hidden');
-        event.target.setAttribute("style", "")
         pickedCards.push(card);
+        flip(cardIdStr);
         if (pickedCards[0].key !== pickedCards[1].key)
           flipBack();
         else
           removePair(pickedCards);
       }
     }
-  }
-
+  };
+  function flip(cardIdStr) {
+    let element = document.querySelector(cardIdStr)
+    if (true) {
+      if (element.style.transform == "rotateY(180deg)") {
+        element.style.transform = "rotateY(0deg)";
+      }
+      else {
+        element.style.transform = "rotateY(180deg)";
+      }
+    }
+  };
   function flipBack() {
     badPoints++;
     gameStatus = "off"
@@ -89,7 +102,7 @@ function render(cardsArray) {
       clear()
       render(cardsArray)
     }, 3000);
-  }
+  };
 
   function removePair(cards) { //remove matched pair and calls checkForWinner 
     gameStatus = "off";
@@ -122,7 +135,7 @@ function render(cardsArray) {
       checkForWinner(cardsArray)
       render(cardsArray)
     }, 1000);
-  }
+  };
 
   function checkForWinner(array) { //declare victory and calls sayHello
     let count = 0;
@@ -152,14 +165,14 @@ function render(cardsArray) {
 
 
 
-  }
+  };
 
   function clear() { //cleans the grid  
     while (gridElement.firstChild)
       gridElement.removeChild(gridElement.firstChild)
 
-  }
-}
+  };
+};
 
 function sayHello() {  //says welcome and calls setDifficulty
   Swal.fire({
@@ -178,7 +191,7 @@ function sayHello() {  //says welcome and calls setDifficulty
       setDifficulty()
     }
   })
-}
+};
 
 function setDifficulty() { //sets difficulty and calls start with new deck
   Swal.fire({
@@ -201,7 +214,7 @@ function setDifficulty() { //sets difficulty and calls start with new deck
       start(newDeck)
     }
   })
-}
+};
 
 function shuffle(array) { // shuffle array randomly
   var currentIndex = array.length, temporaryValue, randomIndex;
@@ -220,5 +233,5 @@ function shuffle(array) { // shuffle array randomly
   }
 
   return array;
-}
+};
 
